@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { RetroRadarChart } from '@/components/RetroRadarChart';
 import { BootSequence } from '@/components/BootSequence';
-import { LeoSwarmHUD } from '@/components/LeoSwarmHUD';
 import { OrbitalSatelliteOrbit } from '@/components/OrbitalSatelliteOrbit';
 import { Terminal, Rocket, Briefcase, GraduationCap, Award, MapPin, Mail } from 'lucide-react';
 
@@ -81,8 +80,6 @@ export default function Portfolio() {
     <>
       <BootSequence onComplete={() => setBootComplete(true)} />
       
-      <LeoSwarmHUD />
-
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: bootComplete ? 1 : 0 }}
@@ -351,8 +348,8 @@ export default function Portfolio() {
         {/* FOOTER */}
         <footer className="mt-8 flex flex-col sm:flex-row justify-between items-center z-10 border-t-[2px] border-[#00FF41] pt-6 pb-12">
           <div className="flex gap-6 text-sm mb-4 sm:mb-0">
-            <span className="font-black uppercase hover:text-white cursor-pointer transition-colors border-b-2 border-transparent hover:border-white">LinkedIn</span>
-            <span className="font-black uppercase hover:text-white cursor-pointer transition-colors border-b-2 border-transparent hover:border-white">CV.PDF</span>
+            <a href="https://github.com/tatendatobaiwa" target="_blank" rel="noopener noreferrer" className="font-black uppercase hover:text-white cursor-pointer transition-colors border-b-2 border-transparent hover:border-white">GitHub</a>
+            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="font-black uppercase hover:text-white cursor-pointer transition-colors border-b-2 border-transparent hover:border-white">CV.PDF</a>
           </div>
           <div className="text-xs font-bold flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#00FF41] animate-ping"></div>
