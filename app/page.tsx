@@ -22,14 +22,18 @@ const projects = [
     tag: "Deep Learning",
     desc: "Engineered a two-phase transfer-learning pipeline ensembling four pre-trained CNNs (DenseNet121, InceptionV3, ResNet50V2, MobileNetV2), achieving 99.57% accuracy.",
     tech: ["Python", "TensorFlow", "Keras", "Grad-CAM", "LIME"],
-    theme: "green"
+    theme: "green",
+    url: "https://colab.research.google.com/drive/10XpvzcjfIEqPHP1RM1rFDqNwnUY2Gaon?usp=sharing",
+    btnText: "VIEW_SOURCE"
   },
   {
     title: "Ablehearts Foundation",
     tag: "Full-Stack Web",
     desc: "Designed and launched the official website for a non-profit organization supporting underprivileged children in Botswana. Engineered with mobile-first and accessibility requirements.",
     tech: ["HTML/CSS", "JavaScript", "Responsive Design", "UI/UX"],
-    theme: "alt"
+    theme: "alt",
+    url: "https://ablehearts.vercel.app",
+    btnText: "VIEW_SITE"
   }
 ];
 
@@ -199,11 +203,13 @@ export default function Portfolio() {
                 </div>
                 
                 {/* CTA Button styled as per DESIGN HTML */}
-                <div className="mt-8 flex">
-                   <div className={`px-4 py-2 border-[2px] text-sm font-bold cursor-pointer transition-all ${proj.theme === 'white' ? 'border-white hover:bg-white hover:text-black text-white' : 'border-[#00FF41] hover:bg-[#00FF41] hover:text-black text-[#00FF41]'}`}>
-                     VIEW_SOURCE
-                   </div>
-                </div>
+                {proj.url && proj.btnText && (
+                  <div className="mt-8 flex">
+                     <a href={proj.url} target="_blank" rel="noopener noreferrer" className={`px-4 py-2 border-[2px] text-sm font-bold cursor-pointer transition-all ${proj.theme === 'white' ? 'border-white hover:bg-white hover:text-black text-white' : 'border-[#00FF41] hover:bg-[#00FF41] hover:text-black text-[#00FF41]'}`}>
+                       {proj.btnText}
+                     </a>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
