@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --font-space: var(--font-space);
+  --font-vt: var(--font-vt);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background-color: #05050A;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 80px 170px, #00FF41, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 50px 260px, #60a5fa, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 190px 40px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 230px 180px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(3px 3px at 360px 120px, #a855f7, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 320px 80px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 480px 250px, #00FF41, rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 500px 500px;
+  animation: moveStars 200s linear infinite;
+  color: #00FF41;
+  font-family: var(--font-mono);
+}
+
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: -1000px 1000px; }
+}
+
+.brutal-base {
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.brutal-green {
+  border: 4px solid #00FF41;
+  background-color: #0A0A1F;
+  box-shadow: 8px 8px 0px #00FF41;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.brutal-green:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0px #00FF41;
+}
+
+.brutal-white {
+  border: 4px solid white;
+  background-color: #000000;
+  box-shadow: 12px 12px 0px #2D0054;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.brutal-white:hover {
+  transform: translate(6px, 6px);
+  box-shadow: 6px 6px 0px #2D0054;
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  position: fixed;
+}

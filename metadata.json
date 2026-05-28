@@ -1,0 +1,6 @@
+{
+  "name": "Tatenda Portfolio",
+  "description": "Portfolio of Tatenda A. Tobaiwa - Software Engineer & Computational Geometer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
