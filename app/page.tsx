@@ -1,7 +1,10 @@
 'use client';
 // [CLIENT REASON] Entire portfolio page relies on coordinate-based scroll animations and Framer Motion interaction primitives.
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { RetroRadarChart } from '@/components/RetroRadarChart';
+import { BootSequence } from '@/components/BootSequence';
 import { Terminal, Rocket, Briefcase, GraduationCap, Award, MapPin, Mail } from 'lucide-react';
 
 const projects = [
@@ -50,15 +53,38 @@ const experience = [
 ];
 
 const skills = [
-  { category: "Languages", items: ["Python", "C", "Java", "JavaScript", "SQL"] },
+  { category: "Languages", items: ["Python", "C/C++", "Java", "JavaScript", "SQL"] },
   { category: "Frameworks/AI", items: ["TensorFlow", "Keras", "Selenium", "React"] },
   { category: "Space & Geometry", items: ["Astrodynamics", "Orekit", "SGP4", "H3 DGGS"] },
   { category: "Engineering", items: ["Algorithms", "Automated Testing", "Linux", "Git"] }
 ];
 
 export default function Portfolio() {
+  const [bootComplete, setBootComplete] = useState(false);
+
+  useEffect(() => {
+    if (sessionStorage.getItem('hasBooted')) {
+      setBootComplete(true);
+    }
+  }, []);
+
   return (
-    <div className="relative min-h-screen font-mono p-6 sm:p-12 lg:p-20 overflow-x-hidden selection:bg-[#00FF41] selection:text-black">
+    <>
+      <BootSequence onComplete={() => setBootComplete(true)} />
+      
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: bootComplete ? 1 : 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        style={{ pointerEvents: bootComplete ? 'auto' : 'none' }}
+        className="relative min-h-screen font-mono p-6 sm:p-12 lg:p-20 overflow-x-hidden selection:bg-[#00FF41] selection:text-black"
+      >
+      {/* Hardware Accelerated Background Stars */}
+      <div className="stars-bg"></div>
+
+      {/* CRT Flicker Overlay */}
+      <div className="crt-flicker"></div>
+
       {/* Interactive Scanline overlay for that retro feel */}
       <div className="scanline"></div>
 
@@ -72,7 +98,7 @@ export default function Portfolio() {
         <motion.header 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ type: "spring", stiffness: 80, damping: 20 }}
           className="space-y-6 pt-10"
         >
           <div className="inline-block bg-[#00FF41] text-black px-4 py-2 border-r-[8px] border-b-[8px] border-white mb-4">
@@ -91,10 +117,10 @@ export default function Portfolio() {
 
         {/* TERMINAL / ABOUT */}
         <motion.section 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.1 }}
           className="brutal-green p-6 sm:p-10 relative overflow-hidden group"
         >
           <div className="absolute top-0 left-0 w-full flex items-center px-4 py-2 bg-[#00FF41]">
@@ -121,7 +147,8 @@ export default function Portfolio() {
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className="flex items-center gap-4 border-b-[4px] border-white/20 pb-4"
           >
             <Rocket className="text-[#00FF41]" size={36} />
@@ -132,11 +159,11 @@ export default function Portfolio() {
             {projects.map((proj, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={proj.theme === 'white' ? 'brutal-white p-6 sm:p-8 flex flex-col' : proj.theme === 'green' ? 'brutal-green p-6 sm:p-8 flex flex-col' : 'border-4 border-[#00FF41] bg-[#05050A] p-6 sm:p-8 flex flex-col'}
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ type: "spring", stiffness: 80, damping: 15, delay: idx * 0.15 }}
+                className={proj.theme === 'white' ? 'brutal-white p-6 sm:p-8 flex flex-col hover:-translate-y-2' : proj.theme === 'green' ? 'brutal-green p-6 sm:p-8 flex flex-col hover:-translate-y-2' : 'border-4 border-[#00FF41] bg-[#05050A] p-6 sm:p-8 flex flex-col transition-transform hover:-translate-y-2'}
               >
                 <div className="flex justify-between items-center mb-6">
                   <span className={`text-xs font-bold uppercase tracking-widest px-2 py-0.5 ${proj.theme === 'white' ? 'bg-white text-black' : 'bg-[#00FF41] text-black'}`}>
@@ -176,7 +203,8 @@ export default function Portfolio() {
            <motion.div 
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
             className="flex items-center gap-4 border-b-[4px] border-[#00FF41]/30 pb-4"
           >
             <Briefcase className="text-white" size={36} />
@@ -187,11 +215,11 @@ export default function Portfolio() {
             {experience.map((exp, idx) => (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="relative pl-6"
+                initial={{ opacity: 0, x: -20, filter: 'blur(5px)' }}
+                whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: idx * 0.15 }}
+                className="relative pl-6 hover:translate-x-2 transition-transform duration-300"
               >
                 <div className="absolute w-5 h-5 bg-[#00FF41] -left-[45px] sm:-left-[45px] top-1 border-[4px] border-[#05050A]"></div>
                 <div className="mb-2">
@@ -205,10 +233,11 @@ export default function Portfolio() {
           </div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="border-4 border-white p-6 sm:p-8 mt-12 bg-[#1A0033] relative overflow-hidden"
+            initial={{ opacity: 0, y: 30, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 90, damping: 20 }}
+            className="border-4 border-white p-6 sm:p-8 mt-12 bg-[#1A0033] relative overflow-hidden group"
           >
             <div className="flex gap-4 items-center mb-8 border-b-[4px] border-white/20 pb-4">
               <GraduationCap className="text-[#00FF41]" size={32}/>
@@ -234,10 +263,11 @@ export default function Portfolio() {
         {/* SKILLS & AWARDS */}
         <section className="grid lg:grid-cols-12 gap-6 pt-8 z-20 relative">
           <motion.div
-            className="lg:col-span-5 flex flex-col gap-4 border-[4px] border-[#00FF41] p-6 bg-[#0A0A1F] shadow-[8px_8px_0px_#00FF41]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            className="lg:col-span-5 flex flex-col gap-4 border-[4px] border-[#00FF41] p-6 bg-[#0A0A1F] shadow-[8px_8px_0px_#00FF41] hover:translate-y-1 transition-transform"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
             <h2 className="text-3xl font-black mb-6 flex items-center text-white uppercase tracking-tighter">
               <span className="mr-2 text-[#00FF41]">[</span>SKILLS<span className="ml-2 text-[#00FF41]">]</span>
@@ -260,9 +290,10 @@ export default function Portfolio() {
 
           <motion.div
             className="lg:col-span-7 grid grid-rows-2 gap-6"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
           >
              <div className="border-[4px] border-white p-6 bg-[black] text-white flex flex-col justify-center shadow-[12px_12px_0px_#2D0054]">
                 <div className="flex items-center gap-4 mb-6 border-b-[2px] border-[#00FF41]/30 pb-2">
@@ -283,20 +314,21 @@ export default function Portfolio() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
-              <div className="border-[4px] border-[#00FF41] p-4 bg-[#05050A] relative flex flex-col justify-center items-center text-center">
-                 <div className="flex gap-1 mb-4">
-                  <div className="w-4 h-4 bg-[#00FF41]"></div>
-                  <div className="w-4 h-4 bg-white"></div>
-                  <div className="w-4 h-4 bg-[#2D0054]"></div>
-                </div>
-                <span className="text-xs uppercase opacity-70 font-bold mb-1 mt-2">Status</span>
-                <span className="text-[#00FF41] font-black uppercase text-xl">Optimum</span>
-              </div>
-              <div className="border-[4px] border-white p-4 bg-[#2D0054] text-white flex flex-col justify-center items-center text-center">
-                <span className="text-5xl font-black">99.5</span>
-                <span className="text-xs font-bold uppercase tracking-widest mt-2 text-[#00FF41]">Accuracy %</span>
-              </div>
+            <div className="border-[4px] border-[#00FF41] bg-[#05050A] text-white flex flex-col sm:flex-row relative sm:h-[250px] shadow-[12px_12px_0px_#00FF41]">
+               <div className="sm:w-1/3 p-6 flex flex-col justify-center border-b-[4px] sm:border-b-0 sm:border-r-[4px] border-[#00FF41]/30 text-center sm:text-left">
+                  <span className="text-xl md:text-2xl font-black text-white uppercase drop-shadow-[2px_2px_0px_#2D0054] leading-none mb-1">Software</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#00FF41]">Developer</span>
+                  <div className="flex w-full items-center justify-center sm:justify-start my-4">
+                     <div className="w-8 h-[2px] bg-[#00FF41]/30"></div>
+                     <span className="text-white/50 font-black mx-2 text-xs">X</span>
+                     <div className="w-8 h-[2px] bg-[#00FF41]/30"></div>
+                  </div>
+                  <span className="text-xl md:text-2xl font-black text-white uppercase drop-shadow-[2px_2px_0px_#2D0054] leading-none mb-1">Geometer</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#00FF41]">Computational</span>
+               </div>
+               <div className="flex-1 w-full relative h-[250px] p-2">
+                 <RetroRadarChart />
+               </div>
             </div>
 
           </motion.div>
@@ -314,6 +346,7 @@ export default function Portfolio() {
           </div>
         </footer>
       </div>
-    </div>
+    </motion.div>
+    </>
   );
 }

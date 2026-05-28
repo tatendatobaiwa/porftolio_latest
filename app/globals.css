@@ -6,27 +6,44 @@
   --font-mono: var(--font-mono);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #05050A;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 80px 170px, #00FF41, rgba(0,0,0,0)),
-    radial-gradient(3px 3px at 50px 260px, #60a5fa, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 190px 40px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 230px 180px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(3px 3px at 360px 120px, #a855f7, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 320px 80px, #ffffff, rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 480px 250px, #00FF41, rgba(0,0,0,0));
-  background-repeat: repeat;
-  background-size: 500px 500px;
-  animation: moveStars 200s linear infinite;
   color: #00FF41;
   font-family: var(--font-mono);
+  text-shadow: 2px 0px 1px rgba(255, 0, 0, 0.6), -2px 0px 1px rgba(0, 100, 255, 0.6);
+  overflow-x: hidden;
+}
+
+.stars-bg {
+  position: fixed;
+  top: -500px;
+  left: -500px;
+  width: calc(100vw + 1000px);
+  height: calc(100vh + 1000px);
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+    radial-gradient(2px 2px at 80px 170px, #00FF41, transparent),
+    radial-gradient(3px 3px at 50px 260px, #60a5fa, transparent),
+    radial-gradient(2px 2px at 190px 40px, #ffffff, transparent),
+    radial-gradient(2px 2px at 230px 180px, #ffffff, transparent),
+    radial-gradient(3px 3px at 360px 120px, #a855f7, transparent),
+    radial-gradient(1px 1px at 320px 80px, #ffffff, transparent),
+    radial-gradient(2px 2px at 480px 250px, #00FF41, transparent);
+  background-repeat: repeat;
+  background-size: 500px 500px;
+  animation: moveStars 100s linear infinite;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
 }
 
 @keyframes moveStars {
-  from { background-position: 0 0; }
-  to { background-position: -1000px 1000px; }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(500px, 500px, 0); }
 }
 
 .brutal-base {
@@ -56,20 +73,91 @@ body {
 }
 
 .scanline {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: -100%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 200%;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0) 50%,
+    transparent,
+    transparent 50%,
     rgba(0, 0, 0, 0.2) 50%,
     rgba(0, 0, 0, 0.2)
   );
   background-size: 100% 4px;
   pointer-events: none;
   z-index: 50;
+  animation: scanlineMove 10s linear infinite;
+  will-change: transform;
+}
+
+@keyframes scanlineMove {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(0, 50%, 0); }
+}
+
+.crt-flicker {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+  z-index: 40;
+  animation: crtFlicker 0.15s infinite;
+  will-change: opacity;
+}
+
+@keyframes crtFlicker {
+  0% { opacity: 0.98; }
+  50% { opacity: 0.95; }
+  100% { opacity: 0.98; }
+}
+
+@media (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+    text-shadow: none !important;
+    animation: none !important;
+  }
+  
+  * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border-color: black !important;
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .print\:hidden,
+  canvas,
+  .crt-flicker,
+  .scanline {
+    display: none !important;
+  }
+  
+  .brutal-green, .brutal-white, .border-4, .border-\[4px\] {
+    border: 2px solid black !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  
+  main, section, div {
+    page-break-inside: avoid;
+  }
 }

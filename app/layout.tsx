@@ -1,5 +1,8 @@
 import type {Metadata} from 'next';
 import { Space_Grotesk, VT323, JetBrains_Mono } from 'next/font/google';
+import { CustomCursor } from '@/components/CustomCursor';
+import { GalaxyParticles } from '@/components/GalaxyParticles';
+import { CRTEffect } from '@/components/CRTEffect';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' });
@@ -15,6 +18,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body suppressHydrationWarning className={`${spaceGrotesk.variable} ${vt323.variable} ${jetbrains.variable}`}>
+        <CustomCursor />
+        <GalaxyParticles />
+        <CRTEffect />
         {children}
       </body>
     </html>
