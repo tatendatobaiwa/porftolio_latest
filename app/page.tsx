@@ -5,7 +5,10 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { RetroRadarChart } from '@/components/RetroRadarChart';
 import { BootSequence } from '@/components/BootSequence';
+import { LeoSwarmHUD } from '@/components/LeoSwarmHUD';
+import { OrbitalSatelliteOrbit } from '@/components/OrbitalSatelliteOrbit';
 import { Terminal, Rocket, Briefcase, GraduationCap, Award, MapPin, Mail } from 'lucide-react';
+
 
 const projects = [
   {
@@ -61,17 +64,25 @@ const skills = [
 
 export default function Portfolio() {
   const [bootComplete, setBootComplete] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (sessionStorage.getItem('hasBooted')) {
       setBootComplete(true);
     }
   }, []);
 
+  if (!mounted) {
+    return <div className="min-h-screen bg-[#05050A]" />;
+  }
+
   return (
     <>
       <BootSequence onComplete={() => setBootComplete(true)} />
       
+      <LeoSwarmHUD />
+
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: bootComplete ? 1 : 0 }}
@@ -81,6 +92,9 @@ export default function Portfolio() {
       >
       {/* Hardware Accelerated Background Stars */}
       <div className="stars-bg"></div>
+
+      {/* Orbiting Satellite */}
+      <OrbitalSatelliteOrbit />
 
       {/* CRT Flicker Overlay */}
       <div className="crt-flicker"></div>
